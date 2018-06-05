@@ -7,8 +7,7 @@ int DV = 4;
 int RT = 5;
 int DB1 =  6, DB2 = 7, DB4 = 8, DB8 = 9;
 
-void setup() {
-  
+void setup() { 
   pinMode(DBC, OUTPUT);
   pinMode(RC, OUTPUT);
   pinMode(DV, INPUT);
@@ -18,8 +17,22 @@ void setup() {
   pinMode(DB4, OUTPUT);
   pinMode(DB8, OUTPUT);
   addrSequence();
+  /*delay(10);
+  setVFO('b');
   delay(10);
-  setVFO('b');  
+  setData(1111);  */
+}
+
+
+
+void setData(int data) {
+  //Set the data lines according to a 4bit binary input
+
+  String dataStr = String(data);    //Make "data" into a String so we can iterate through the digits
+  digitalWrite(DB8, dataStr.charAt(0)); 
+  digitalWrite(DB4, dataStr.charAt(1));
+  digitalWrite(DB2, dataStr.charAt(2));
+  digitalWrite(DB1, dataStr.charAt(3));
 }
 
 
@@ -32,20 +45,12 @@ void addrSequence() {
   delay(10);
   
   digitalWrite(RT, HIGH);   //Trigger the RT pulse 
-  //write 1110 to data lines
-  digitalWrite(DB1, LOW);
-  digitalWrite(DB2, HIGH);
-  digitalWrite(DB4, HIGH);
-  digitalWrite(DB8, HIGH);
+  setData(1110);
   delay(2);
   
   digitalWrite(RT, LOW);
   delay(2);
-  digitalWrite(DB1, LOW);
-  digitalWrite(DB2, LOW);
-  digitalWrite(DB4, LOW);
-  digitalWrite(DB8, LOW);  
-  
+  setData(0000);
 }
 
 
