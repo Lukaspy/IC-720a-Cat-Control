@@ -16,7 +16,10 @@ void setup() {
   pinMode(DB1, OUTPUT);
   pinMode(DB2, OUTPUT);
   pinMode(DB4, OUTPUT);
-  pinMode(DB8, OUTPUT);  
+  pinMode(DB8, OUTPUT);
+  addrSequence();
+  delay(10);
+  setMode("RTTY");  
 }
 
 void addrSequence() {
@@ -37,6 +40,7 @@ void addrSequence() {
   delay(2);
   
   digitalWrite(RT, LOW);
+  delay(2);
   digitalWrite(DB1, LOW);
   digitalWrite(DB2, LOW);
   digitalWrite(DB4, LOW);
@@ -57,70 +61,70 @@ void triggerRadio() {
 }
 
 
-void setMode(int mode) {
+void setMode(char mode[]) {
   //Check what mode was passed and set the IC-720a to that mode
-
-  switch(mode) {
-    case 'USB':
-      //Place 0000 on the data lines
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, LOW);
-      triggerRadio();
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, LOW);
-      break;
-    case 'CW':
-      //Place 0110 on data lines
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, HIGH);
-      digitalWrite(DB4, HIGH);
-      digitalWrite(DB8, LOW);
-      triggerRadio();
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, LOW);
-      break;
-    case 'AM':
-      //Place 1000 on the data lines
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, HIGH);
-      triggerRadio();
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, LOW);
-      break;
-    case 'LSB':
-      //Place 1011 on the data lines
-      digitalWrite(DB1, HIGH);
-      digitalWrite(DB2, HIGH);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, HIGH);
-      triggerRadio();
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, LOW);
-      digitalWrite(DB8, LOW);
-      break;
-    case 'RTTY':
-      //place 1100 on the data lines
-      digitalWrite(DB1, LOW);
-      digitalWrite(DB2, LOW);
-      digitalWrite(DB4, HIGH);
-      digitalWrite(DB8, HIGH);
-      triggerRadio();
-      break;
-        
+  if (mode == "USB") {
+    //Place 0000 on the data lines
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);
+    triggerRadio();
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);
+  }  
+  else if (mode == "CW"){
+    //Place 0110 on data lines
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, HIGH);
+    digitalWrite(DB4, HIGH);
+    digitalWrite(DB8, LOW);
+    triggerRadio();
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);
+  }
+  else if (mode == "AM"){
+    //Place 1000 on the data lines
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, HIGH);
+    triggerRadio();
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);
+  }
+  else if (mode == "LSB"){
+    //Place 1011 on the data lines
+    digitalWrite(DB1, HIGH);
+    digitalWrite(DB2, HIGH);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, HIGH);
+    triggerRadio();
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);
+  }
+  else if (mode == "RTTY"){
+    //place 1100 on the data lines
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, HIGH);
+    digitalWrite(DB8, HIGH);
+    triggerRadio();
+    digitalWrite(DB1, LOW);
+    digitalWrite(DB2, LOW);
+    digitalWrite(DB4, LOW);
+    digitalWrite(DB8, LOW);  
   }  
 }
-    
+
 void loop() {
 
 }
