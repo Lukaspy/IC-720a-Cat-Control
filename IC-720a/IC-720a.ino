@@ -1,4 +1,4 @@
-//Ic-720A to ft-817 cat control
+//Ic-720A to ic-735 cat control
 
 //These are the control pins on the acc port of the ic-720
 int DBC = 2;
@@ -19,8 +19,9 @@ void setup() {
   pinMode(DB8, OUTPUT);
   addrSequence();
   delay(10);
-  setMode("RTTY");  
+  setVFO('b');  
 }
+
 
 void addrSequence() {
   //This addresses the IC-720a to initiate communication
@@ -30,8 +31,7 @@ void addrSequence() {
   digitalWrite(DBC, LOW);
   delay(10);
   
-  //Trigger the RT pulse and put b1110 on the data lines
-  digitalWrite(RT, HIGH);
+  digitalWrite(RT, HIGH);   //Trigger the RT pulse 
   //write 1110 to data lines
   digitalWrite(DB1, LOW);
   digitalWrite(DB2, HIGH);
@@ -63,7 +63,7 @@ void triggerRadio() {
 
 void setMode(char mode[]) {
   //Check what mode was passed and set the IC-720a to that mode
-  if (mode == "USB") {
+  if (strcmp(mode, "USB") == 0) {
     //Place 0000 on the data lines
     digitalWrite(DB1, LOW);
     digitalWrite(DB2, LOW);
@@ -75,7 +75,7 @@ void setMode(char mode[]) {
     digitalWrite(DB4, LOW);
     digitalWrite(DB8, LOW);
   }  
-  else if (mode == "CW"){
+  else if (strcmp(mode, "CW") == 0) {
     //Place 0110 on data lines
     digitalWrite(DB1, LOW);
     digitalWrite(DB2, HIGH);
@@ -87,7 +87,7 @@ void setMode(char mode[]) {
     digitalWrite(DB4, LOW);
     digitalWrite(DB8, LOW);
   }
-  else if (mode == "AM"){
+  else if (strcmp(mode, "AM") == 0) {
     //Place 1000 on the data lines
     digitalWrite(DB1, LOW);
     digitalWrite(DB2, LOW);
@@ -99,7 +99,7 @@ void setMode(char mode[]) {
     digitalWrite(DB4, LOW);
     digitalWrite(DB8, LOW);
   }
-  else if (mode == "LSB"){
+  else if (strcmp(mode, "LSB") == 0) {
     //Place 1011 on the data lines
     digitalWrite(DB1, HIGH);
     digitalWrite(DB2, HIGH);
@@ -111,7 +111,7 @@ void setMode(char mode[]) {
     digitalWrite(DB4, LOW);
     digitalWrite(DB8, LOW);
   }
-  else if (mode == "RTTY"){
+  else if (strcmp(mode, "RTTY") == 0) {
     //place 1100 on the data lines
     digitalWrite(DB1, LOW);
     digitalWrite(DB2, LOW);
@@ -124,6 +124,40 @@ void setMode(char mode[]) {
     digitalWrite(DB8, LOW);  
   }  
 }
+
+
+void setVFO(char VFO){
+  //Set VFO to either A or B
+
+  switch (VFO){
+    case 'a':
+      //Set data lines to 1010
+      digitalWrite(DB1, LOW);
+      digitalWrite(DB2, HIGH);
+      digitalWrite(DB4, LOW);
+      digitalWrite(DB8, HIGH);
+      triggerRadio();
+      digitalWrite(DB1, LOW);
+      digitalWrite(DB2, LOW);
+      digitalWrite(DB4, LOW);
+      digitalWrite(DB8, LOW);
+      break;
+    case 'b':
+      //Set data lines to 1011
+      digitalWrite(DB1, HIGH);
+      digitalWrite(DB2, HIGH);
+      digitalWrite(DB4, LOW);
+      digitalWrite(DB8, HIGH);
+      triggerRadio();
+      digitalWrite(DB1, LOW);
+      digitalWrite(DB2, LOW);
+      digitalWrite(DB4, LOW);
+      digitalWrite(DB8, LOW);
+      break;
+  }
+  
+}
+
 
 void loop() {
 
